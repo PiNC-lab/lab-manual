@@ -9,7 +9,7 @@ You don't need to install anything to contribute. Everything below can be done i
 
 ## How it works
 
-Every page on this site is a plain text file in the [PiNC-lab/PiNC-lab.github.io](https://github.com/PiNC-lab/PiNC-lab.github.io) repository on GitHub. When someone changes one of those files, the website rebuilds itself a few minutes later.
+Every page on this site is a plain text file in the [PiNC-lab/lab-manual](https://github.com/PiNC-lab/lab-manual) repository on GitHub. When someone changes one of those files, the website rebuilds itself a few minutes later.
 
 You can't change the lab's copy of the files directly. Instead you:
 
@@ -37,12 +37,12 @@ That's it. You'll get an email when someone has looked at it. If they ask for a 
 
 Tutorials live in the `tutorials` folder. Each one is a single `.qmd` file, which is Markdown with a short header at the top.
 
-1. Go to the [repository](https://github.com/PiNC-lab/PiNC-lab.github.io) and click **Fork** at the top right, then **Create fork**. You now have your own copy at `github.com/your-username/PiNC-lab.github.io`. (If you've forked it before, open your fork and click **Sync fork** first so it's up to date.)
-2. In your fork, open the `tutorials` folder and then [`_template.qmd`](https://github.com/PiNC-lab/PiNC-lab.github.io/blob/main/tutorials/_template.qmd). Click the **Raw** button and copy all the text.
+1. Go to the [repository](https://github.com/PiNC-lab/lab-manual) and click **Fork** at the top right, then **Create fork**. You now have your own copy at `github.com/your-username/lab-manual`. (If you've forked it before, open your fork and click **Sync fork** first so it's up to date.)
+2. In your fork, open the `tutorials` folder and then [`_template.qmd`](https://github.com/PiNC-lab/lab-manual/blob/main/tutorials/_template.qmd). Click the **Raw** button and copy all the text.
 3. Go back to the `tutorials` folder, click **Add file > Create new file**, and name it something short with dashes instead of spaces, ending in `.qmd`, for example `camera-trap-data.qmd`.
 4. Paste in the template and replace the text with your own. Fill in the `title`, `description`, `categories`, `date` and `author` lines at the top; the home page uses these.
 5. Click **Commit changes...**. Choose **Create a new branch for this commit**, give it a name like `add-camera-trap-tutorial`, and click **Propose changes**.
-6. Check that the top of the page says you're asking to merge into `PiNC-lab/PiNC-lab.github.io` on `main`, write a sentence or two about what you've added, and click **Create pull request**.
+6. Check that the top of the page says you're asking to merge into `PiNC-lab/lab-manual` on `main`, write a sentence or two about what you've added, and click **Create pull request**.
 
 ### Adding pictures
 
@@ -106,4 +106,4 @@ For bigger changes, such as a long tutorial with lots of images, you may prefer 
 
 ## Suggest something without writing it
 
-If you'd like a tutorial on something but don't want to write it, or you've found a problem you can't fix yourself, click **Report an issue** on any page, or [open an issue](https://github.com/PiNC-lab/PiNC-lab.github.io/issues/new) on the repository and describe it.
+If you'd like a tutorial on something but don't want to write it, or you've found a problem you can't fix yourself, click **Report an issue** on any page, or [open an issue](https://github.com/PiNC-lab/lab-manual/issues/new) on the repository and describe it.

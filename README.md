@@ -2,7 +2,7 @@
 
 Tutorials, how-to guides and shared resources for the [People in Nature & Climate (PiNC) Lab](https://www.pinclab.co.za) at the University of Cape Town.
 
-**The site is at <https://pinc-lab.github.io>.**
+**The site is at <https://pinc-lab.github.io/lab-manual/>.**
 
 ## Contributing
 
@@ -14,7 +14,7 @@ Anyone in the lab can fix a page or add a new tutorial, and you can do it all in
 
 For small fixes it's even simpler: click **Edit this page** on any page of the website, and GitHub sets up the fork and pull request for you.
 
-The [Contributing page](https://pinc-lab.github.io/contributing.html) has click-by-click instructions, plus Markdown basics and how to add images.
+The [Contributing page](https://pinc-lab.github.io/lab-manual/contributing.html) has click-by-click instructions, plus Markdown basics and how to add images.
 
 ## What's in this repository
 

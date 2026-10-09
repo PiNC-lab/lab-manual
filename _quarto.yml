@@ -4,8 +4,8 @@ project:
 website:
   title: "PiNC Lab Manual"
   description: "Tutorials, how-to guides and shared resources for the People in Nature & Climate (PiNC) Lab."
-  site-url: https://pinc-lab.github.io
-  repo-url: https://github.com/PiNC-lab/PiNC-lab.github.io
+  site-url: https://pinc-lab.github.io/lab-manual/
+  repo-url: https://github.com/PiNC-lab/lab-manual
   repo-actions: [edit, issue]
   page-navigation: true
   navbar:
