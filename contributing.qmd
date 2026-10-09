@@ -1,0 +1,109 @@
+---
+title: "Contributing"
+description: "How to fix a page or add a new tutorial to this site."
+---
+
+This site is written by people in the lab, for people in the lab. If you spot a mistake, or you've worked out how to do something that others would find useful, please add it.
+
+You don't need to install anything to contribute. Everything below can be done in your web browser on GitHub. All you need is a [GitHub account](https://github.com/signup).
+
+## How it works
+
+Every page on this site is a plain text file in the [PiNC-lab/PiNC-lab.github.io](https://github.com/PiNC-lab/PiNC-lab.github.io) repository on GitHub. When someone changes one of those files, the website rebuilds itself a few minutes later.
+
+You can't change the lab's copy of the files directly. Instead you:
+
+1. Make your own copy of the repository (a **fork**).
+2. Make your change in your copy.
+3. Ask for your change to be brought into the lab's copy (a **pull request**).
+
+Someone who looks after the site checks the change and merges it. GitHub walks you through most of this, as described below.
+
+If forks and pull requests are new to you, the [Git and GitHub tutorial](tutorials/git-github.qmd#the-lab-organisation-forks-and-pull-requests) explains them in more detail. You don't need to read it first.
+
+## Fix or improve an existing page
+
+This is the quickest way to correct a typo, update a link or add a few lines.
+
+1. On the page you want to change, click **Edit this page** on the right-hand side (under the table of contents) or at the bottom of the page.
+2. GitHub opens the file. If it says you need to fork the repository to propose changes, click **Fork this repository**.
+3. Make your change in the editor. Use the **Preview** tab to check how it looks.
+4. Click **Commit changes...**. Write a short note saying what you changed, for example "Fix broken link to Zenodo", and click **Propose changes**.
+5. On the next page, click **Create pull request**, then **Create pull request** again.
+
+That's it. You'll get an email when someone has looked at it. If they ask for a change, make it the same way, and it gets added to the same pull request.
+
+## Add a new tutorial or how-to
+
+Tutorials live in the `tutorials` folder. Each one is a single `.qmd` file, which is Markdown with a short header at the top.
+
+1. Go to the [repository](https://github.com/PiNC-lab/PiNC-lab.github.io) and click **Fork** at the top right, then **Create fork**. You now have your own copy at `github.com/your-username/PiNC-lab.github.io`. (If you've forked it before, open your fork and click **Sync fork** first so it's up to date.)
+2. In your fork, open the `tutorials` folder and then [`_template.qmd`](https://github.com/PiNC-lab/PiNC-lab.github.io/blob/main/tutorials/_template.qmd). Click the **Raw** button and copy all the text.
+3. Go back to the `tutorials` folder, click **Add file > Create new file**, and name it something short with dashes instead of spaces, ending in `.qmd`, for example `camera-trap-data.qmd`.
+4. Paste in the template and replace the text with your own. Fill in the `title`, `description`, `categories`, `date` and `author` lines at the top; the home page uses these.
+5. Click **Commit changes...**. Choose **Create a new branch for this commit**, give it a name like `add-camera-trap-tutorial`, and click **Propose changes**.
+6. Check that the top of the page says you're asking to merge into `PiNC-lab/PiNC-lab.github.io` on `main`, write a sentence or two about what you've added, and click **Create pull request**.
+
+### Adding pictures
+
+Put image files in the `tutorials/images` folder. In your fork, open that folder, click **Add file > Upload files**, drag the files in, and commit them to the same branch as your tutorial. Then link to them in your tutorial:
+
+```markdown
+![Camera trap set up on a fence post](images/camera-trap-setup.jpg)
+```
+
+Keep images small (under 1 MB if you can). Screenshots and photos straight off a phone are often much larger than they need to be.
+
+## Writing pages
+
+Pages are written in Markdown. The essentials:
+
+| You write | You get |
+|---|---|
+| `## Section heading` | A section heading (it appears in the table of contents) |
+| `**bold**` and `*italic*` | **bold** and *italic* |
+| `[link text](https://example.com)` | [link text](https://example.com) |
+| `- item` on separate lines | A bulleted list |
+| `1. step` on separate lines | A numbered list |
+| `` `install.packages("terra")` `` | `install.packages("terra")` |
+
+For a block of code, put three backticks and the language on the line before, and three backticks on the line after:
+
+````markdown
+```r
+library(terra)
+r <- rast("elevation.tif")
+```
+````
+
+Code on this site is shown, not run, so you don't need any data or packages for the page to build. The [Quarto Markdown guide](https://quarto.org/docs/authoring/markdown-basics.html) covers everything else, including tables, footnotes and callout boxes.
+
+A few tips:
+
+- Write for someone in the lab a year from now who wasn't in the room. Say what they need installed and where any data come from.
+- Short sections with clear headings are easier to follow than long ones.
+- Don't include passwords, API keys, or personal or sensitive data. Everything in this repository is public.
+
+## What happens after you open a pull request
+
+- GitHub automatically checks that the site still builds with your change. A green tick means it's fine. A red cross means something went wrong; click **Details** to see what, or just ask for help in the pull request.
+- Someone who looks after the site reads it, and either merges it or leaves a comment.
+- Once it's merged, the live site updates within a few minutes.
+
+## Working on your own computer (optional)
+
+For bigger changes, such as a long tutorial with lots of images, you may prefer to work in RStudio. RStudio comes with Quarto built in.
+
+1. Fork the repository and clone your fork in RStudio (**File > New Project > Version Control > Git**). The [Git and GitHub tutorial](tutorials/git-github.qmd) explains each of these steps.
+2. Make a branch for your change: `git switch -c add-my-tutorial`.
+3. Add or edit files. To see the whole site as it will look, run this in the RStudio **Terminal**:
+
+   ```bash
+   quarto preview
+   ```
+
+4. Commit, push to your fork with `git push -u origin add-my-tutorial`, and open a pull request on GitHub.
+
+## Suggest something without writing it
+
+If you'd like a tutorial on something but don't want to write it, or you've found a problem you can't fix yourself, click **Report an issue** on any page, or [open an issue](https://github.com/PiNC-lab/PiNC-lab.github.io/issues/new) on the repository and describe it.

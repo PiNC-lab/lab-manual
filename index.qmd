@@ -1,0 +1,16 @@
+---
+title: "PiNC Lab Manual"
+toc: false
+listing:
+  contents: tutorials
+  type: default
+  sort: "title"
+  fields: [title, description, categories]
+  categories: true
+---
+
+Tutorials, how-to guides and shared resources for the [People in Nature & Climate (PiNC) Lab](https://www.pinclab.co.za) at the African Climate & Development Initiative, University of Cape Town.
+
+Anyone in the lab can add to this site or fix something on it. See [Contributing](contributing.qmd) for how.
+
+## Tutorials and how-tos

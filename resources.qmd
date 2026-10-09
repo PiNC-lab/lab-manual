@@ -1,0 +1,17 @@
+---
+title: "Resources"
+---
+
+## The lab
+
+- [Lab website](https://www.pinclab.co.za): research, projects, team and opportunities.
+- [Lab GitHub organisation](https://github.com/PiNC-lab): shared code and project repositories.
+
+## Learning R, Git and reproducible research
+
+- [Happy Git and GitHub for the useR](https://happygitwithr.com): setting up Git with R and RStudio, and fixing common problems.
+- [R for Data Science](https://r4ds.hadley.nz): a free book covering data import, cleaning, plotting and modelling in R.
+- [Quarto guide](https://quarto.org/docs/guide/): writing documents, reports and websites (like this one) with Quarto.
+- [Markdown basics](https://quarto.org/docs/authoring/markdown-basics.html): the formatting used on every page of this site.
+
+Know of something useful that should be here? [Add it](contributing.qmd).

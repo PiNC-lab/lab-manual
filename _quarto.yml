@@ -1,0 +1,31 @@
+project:
+  type: website
+
+website:
+  title: "PiNC Lab Manual"
+  description: "Tutorials, how-to guides and shared resources for the People in Nature & Climate (PiNC) Lab."
+  site-url: https://pinc-lab.github.io
+  repo-url: https://github.com/PiNC-lab/PiNC-lab.github.io
+  repo-actions: [edit, issue]
+  page-navigation: true
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: resources.qmd
+        text: Resources
+      - href: contributing.qmd
+        text: Contributing
+    right:
+      - icon: github
+        href: https://github.com/PiNC-lab
+        aria-label: PiNC Lab on GitHub
+  page-footer:
+    left: "People in Nature & Climate Lab, ACDI, University of Cape Town"
+    right: "[pinclab.co.za](https://www.pinclab.co.za)"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-copy: true

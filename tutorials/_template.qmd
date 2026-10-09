@@ -1,0 +1,32 @@
+---
+title: "Your tutorial title"
+description: "One sentence saying what this tutorial covers. It appears on the home page."
+categories: [r]
+date: 2026-01-31
+author: "Your Name"
+---
+
+<!--
+This is a template. Copy this file, rename the copy (for example tutorials/species-distribution-models.qmd),
+and replace the text below. Files whose names start with an underscore, like this one, don't appear on the site.
+-->
+
+A short paragraph on what the reader will learn and what they need to know beforehand.
+
+## First section
+
+Write in plain Markdown. Code goes in blocks like this, which are shown on the page but not run:
+
+```r
+library(terra)
+r <- rast("data/elevation.tif")
+plot(r)
+```
+
+To include a picture, put the file in `tutorials/images/` and link to it:
+
+![A short description of the picture](images/my-figure.png)
+
+## Second section
+
+Keep going with as many sections as you need.

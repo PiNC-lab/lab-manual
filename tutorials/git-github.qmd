@@ -1,0 +1,637 @@
+---
+title: "Getting started with Git and GitHub"
+description: "What Git and GitHub do, how to save and share your work, and how to suggest changes to lab repositories with forks and pull requests."
+categories: [git, github, r]
+date: 2026-10-09
+---
+
+<!--
+Instructor notes are in HTML comments like this one. They don't show on the website.
+Before starting: run check.sh. In the main browser profile, open the fynbos-bird-counts commits page,
+the lab-handbook repo and the example Zenodo repo. In the second profile, log in as the test student
+account and open lab-handbook/useful-packages.md. No RStudio project open. Start recording.
+-->
+
+This started as a one-hour live demo for graduate students in the lab. It's written so you can work through it on your own afterwards. It assumes you use R and RStudio but haven't used Git before.
+
+The lab has an organisation on GitHub at https://github.com/PiNC-lab, and that's the main reason for this session. By the end you should know what Git and GitHub each do, how to save and share your own work with them, and how to suggest changes to lab repositories you can't edit directly.
+
+There's a setup guide and a cheat sheet at the end of the page.
+
+## Outline
+
+| Start | Topic | Minutes |
+|---|---|---|
+| 0:00 | Why bother with version control | 3 |
+| 0:03 | Git and GitHub are not the same thing | 7 |
+| 0:10 | The basic loop: commit, push, pull | 11 |
+| 0:21 | Going back to an earlier version | 7 |
+| 0:28 | Branches | 7 |
+| 0:35 | The lab organisation: forks and pull requests | 12 |
+| 0:47 | READMEs, issues and DOIs | 5 |
+| 0:52 | What not to put in a repository | 5 |
+| 0:57 | Wrapping up | 3 |
+
+## 1. Why bother with version control
+
+Most of us have a folder that looks a bit like this:
+
+```
+analysis.R
+analysis_v2.R
+analysis_v2_fixed.R
+analysis_FINAL.R
+analysis_FINAL_actually.R
+analysis_FINAL_USE_THIS.R
+analysis_supervisor_comments.R
+analysis_Jan2026_backup.R
+```
+
+That works for a while. Then a reviewer asks how you made Figure 3, a year after you made it. Or your supervisor needs your code after you've left. Or a model that used to give sensible results doesn't any more and you can't work out what you changed. Or your laptop is stolen the week before you submit.
+
+Version control keeps a record of every version of a project you choose to save, with the date, who made it and a short note about what changed. You get all of that without a folder full of copies.
+
+This is what it looks like for the small project we'll use today: https://github.com/PiNC-lab/fynbos-bird-counts/commits/main
+
+Each line is one saved version. Scroll down and you'll see a few months of work, including a change that was tried and then taken out again.
+
+## 2. Git and GitHub are not the same thing
+
+People use the two names as if they mean the same thing, which causes a fair bit of confusion later.
+
+**Git** is a program on your computer. It keeps track of the history of a folder. It doesn't need an account or an internet connection, and you don't need anyone else.
+
+**GitHub** is a website that stores copies of Git repositories and adds tools for sharing them and working on them together. Others do the same job, such as GitLab and Codeberg.
+
+A rough comparison: Git is a camera and GitHub is somewhere to share the photos. You could take photos for years without uploading any of them.
+
+The thing that trips most people up is that saving a version (a commit) only saves it on your computer. Nothing reaches GitHub until you push it.
+
+```
+your files  ->  commit  ->  history on your computer  ->  push  ->  GitHub
+                                                       <-  pull  <-
+```
+
+### Git without GitHub
+
+Here's Git with no GitHub involved. In RStudio, open the **Terminal** tab next to the Console and run these one at a time:
+
+```bash
+mkdir ~/demo-scratch
+cd ~/demo-scratch
+git init
+echo "mean count = 4.2" > notes.txt
+git add notes.txt
+git commit -m "Record first result"
+echo "mean count = 4.7 after removing site 4" >> notes.txt
+git add notes.txt
+git commit -m "Recalculate without site 4"
+git log --oneline
+ls -a
+```
+
+`git log --oneline` lists the two versions you just saved. There was no login, nothing was uploaded, and it would have worked offline.
+
+`ls -a` shows a hidden folder called `.git`. That folder is the history, and it lives inside the project. Delete the project folder, or lose the laptop, and the history goes with it.
+
+### What GitHub adds
+
+- A copy of your work that isn't on your laptop.
+- A link you can send to a supervisor, co-author or journal.
+- A way for several people to work on the same project without emailing files around.
+- Issues: a to-do list that sits next to the code.
+- A place for the lab's code that doesn't depend on any one person.
+
+You can use Git on its own, and for some private work that's fine, but a `.git` folder on one laptop is not a backup. From here on we use both.
+
+## 3. The basic loop: commit, push, pull
+
+### Start on GitHub
+
+The easiest way to start a new project is to make the repository on GitHub first and then copy it to your computer. Doing it the other way round, starting with a folder and connecting it to GitHub later, is one of the more awkward things in Git and best avoided while you're learning.
+
+To make one, click **+** at the top right of GitHub and choose **New repository**. Pick the owner (your own account or the lab organisation, see section 6), give it a name, choose public or private, and tick **Add a README file**.
+
+<!-- Show the New repository page for about 20 seconds: Owner, name, visibility, README box. Leave without creating anything. -->
+
+For today we'll use a repository that already exists.
+
+### Clone it
+
+Go to https://github.com/PiNC-lab/fynbos-bird-counts, click the green **Code** button and copy the HTTPS address.
+
+In RStudio, go to **File > New Project > Version Control > Git**, paste the address, choose where to put the project and click **Create Project**. The terminal equivalent is:
+
+```bash
+git clone https://github.com/PiNC-lab/fynbos-bird-counts.git
+```
+
+<!-- Clone into ~/git-demo. When RStudio reopens, start a new terminal (Terminal > New Terminal) so it's in the project folder. -->
+
+RStudio opens the project, and a **Git** tab appears in the top-right pane. Cloning copies the whole history, not just the current files, so all of those commits are now on your computer too.
+
+If you're following along on your own, you can clone this repository but you won't be able to push to it. To try the rest of this section yourself, fork it first (section 6 explains how) and clone your fork instead.
+
+### Change something and commit it
+
+Open `R/03_plot_abundance.R`. Restored sites are drawn in dark grey. Change that line so they're green:
+
+```r
+  scale_fill_manual(values = c(unrestored = "grey60", restored = "#2a7f62")) +
+```
+
+Save the file. It appears in the Git tab with a blue **M**, meaning modified.
+
+To commit, tick the box next to the file (this is called staging), click **Commit**, write a short message and click **Commit** again. In the terminal:
+
+```bash
+git status
+git add R/03_plot_abundance.R
+git commit -m "Use green fill for restored sites"
+```
+
+The Git tab now says your branch is ahead of `origin/main` by one commit. `origin` is the copy on GitHub. Refresh the GitHub page and the change isn't there yet, because it's only on your computer.
+
+<!-- Actually refresh GitHub here to show it isn't there. This is the moment the section hangs on. -->
+
+### Push
+
+Click **Push** (the green up arrow) or run:
+
+```bash
+git push
+```
+
+Refresh GitHub and the change is there.
+
+### See what you've changed
+
+Make one more edit to the same file, adding a label to the y axis:
+
+```r
+  labs(x = "Site", y = "Mean count per point") +
+```
+
+Save, then click **Diff** in the Git tab before committing. The old line is shown in red and the new one in green, and nothing else in the file has changed. In the terminal:
+
+```bash
+git diff
+```
+
+Git tracks changes line by line, so it pays to make each commit one sensible change with a message that says what you did. "Fixed stuff" on a commit that touches forty lines won't mean much to anyone, including you in six months.
+
+```bash
+git add R/03_plot_abundance.R
+git commit -m "Label y axis"
+git push
+```
+
+### Pull
+
+Changes can come from elsewhere too. On GitHub, open `README.md`, click the pencil icon and add a sentence to the Data section, for example:
+
+```
+Counts were made by two observers at each point.
+```
+
+Click **Commit changes**. Then in RStudio click **Pull** (the blue down arrow), or:
+
+```bash
+git pull
+```
+
+Open `README.md` and the new sentence is there. In real life the change will usually have come from a collaborator, or from you on another computer. Pull before you start working and push when you finish.
+
+That's the whole loop: pull, edit, stage, commit, push. Most of the time it's all you'll be doing.
+
+## 4. Going back to an earlier version
+
+This is the part that makes Git worth learning.
+
+Open `R/03_plot_abundance.R` and break it. Change `site_means` to `site_mean`, delete `, fill = treatment`, and change `geom_col()` to `geom_bar()`. Save, then run it in the console:
+
+```r
+source("R/03_plot_abundance.R")
+```
+
+It fails. Now suppose you can't remember what you changed.
+
+### What's different since the last commit?
+
+Click **Diff** in the Git tab, or:
+
+```bash
+git status
+git diff R/03_plot_abundance.R
+```
+
+Every change is listed. For a few small edits you could just undo them by hand.
+
+### What did the file look like before?
+
+Click the clock icon in the Git tab to open the history. Click a commit to see what it changed, and use **View file @** to open the file as it was at that point. Looking doesn't touch your current file. From the terminal:
+
+```bash
+git log --oneline -- R/03_plot_abundance.R
+git show <commit-id>:R/03_plot_abundance.R
+```
+
+`<commit-id>` is the short code at the start of each line of the log, something like `a1b2c3d`.
+
+### Put it back
+
+To throw away everything you've changed in the file since the last commit:
+
+```bash
+git restore R/03_plot_abundance.R
+```
+
+In RStudio, select the file in the Git tab and use **More > Revert**, which does the same thing.
+
+Run the script again and it works.
+
+`git restore` takes you back to your last commit, not to the last time things worked. If you last committed a week ago, you lose a week. So commit often: whenever you finish a small piece of work, or whenever you'd otherwise have saved a copy with `_v2` on the end.
+
+You can also undo commits you've already pushed, with `git revert`, but that's for another day.
+
+## 5. Branches
+
+Say your supervisor suggests trying a GAM instead of the GLM in `R/04_model.R`. You'd like to try it without touching the version that works, especially with a draft due on Friday. Without Git you'd probably copy the script to `04_model_GAM_test.R`, and a month later you wouldn't remember which one produced Figure 2.
+
+A branch is a separate line of commits. `main` stays as it is while you experiment on the branch. If the experiment works, you merge it into `main`. If it doesn't, you delete the branch.
+
+### Make a branch
+
+In the Git tab, click the purple branch icon, call the new branch `try-gam` and click **Create**. Or:
+
+```bash
+git switch -c try-gam
+```
+
+The Git tab now shows `try-gam` as the current branch. Same folder and same files, but anything you commit now goes on the branch.
+
+### Work on the branch
+
+Replace everything in `R/04_model.R` with:
+
+```r
+library(mgcv)
+source("R/01_load_data.R")
+
+# Day of year, to allow for seasonal change in counts
+counts$doy <- as.numeric(format(counts$date, "%j"))
+
+m_gam <- gam(count ~ treatment + s(doy, k = 4), family = poisson, data = counts)
+summary(m_gam)
+```
+
+`mgcv` comes with R, so there's nothing extra to install. Commit and push:
+
+```bash
+git add R/04_model.R
+git commit -m "Try GAM with seasonal smooth"
+git push -u origin try-gam
+```
+
+`-u origin try-gam` creates the branch on GitHub as well. You only need it the first time you push a new branch.
+
+Then add a comparison with the original model to the end of the file:
+
+```r
+m_glm <- glm(count ~ treatment, family = poisson, data = counts)
+AIC(m_glm, m_gam)
+```
+
+```bash
+git add R/04_model.R
+git commit -m "Compare GAM and GLM with AIC"
+git push
+```
+
+On GitHub, use the branch menu above the file list to switch between `main` and `try-gam`, and open `R/04_model.R` on each. There are two versions of the file and both are saved.
+
+### Switch back
+
+Change back to `main` with the branch menu in the Git tab, or:
+
+```bash
+git switch main
+```
+
+Open `R/04_model.R` and it's the GLM again. The GAM hasn't gone anywhere; it's on the other branch.
+
+<!-- Pause here. Files changing underneath you is surprising the first time. -->
+
+### Merge it in
+
+The GAM is the better model, so bring it into `main`. There's no button for this in RStudio, so use the terminal:
+
+```bash
+git switch main
+git merge try-gam
+git push
+```
+
+Then delete the branch, on your computer and on GitHub:
+
+```bash
+git branch -d try-gam
+git push origin --delete try-gam
+```
+
+The commits are now part of `main`. Only the branch name is gone.
+
+Branches don't cost anything, so it's worth making one whenever you're about to try something you might want to back out of. In the next section you'll see another way to merge a branch, through GitHub.
+
+## 6. The lab organisation: forks and pull requests
+
+### What it is and what it's for
+
+A GitHub organisation is an account shared by a group. Repositories in it belong to the group rather than to one person. Ours is https://github.com/PiNC-lab.
+
+We use it for:
+
+- lab tutorials, wikis, notebooks: shared learning material or resources
+- shared code that several people use or contribute to
+- projects that involve more than one person, and student projects that should stay with the lab after you've moved on
+
+Because the repositories belong to the lab, they don't get lost or locked away when someone graduates or changes job, and everything is in one place.
+
+When you join, you keep your own GitHub account. Membership gives that account access to the lab's repositories.
+
+### What you can and can't change
+
+You can see all the lab's repositories, but on shared ones you can't push changes directly. That's deliberate. A lot of people rely on them, so changes get looked at before they go in. On repositories you create yourself, you have full control.
+
+So how do you suggest a change to something you can't push to? With a fork and a pull request.
+
+- A **fork** is your own copy of a repository, under your account. You can do what you like with it.
+- A **pull request** asks the people who look after the original repository to bring in changes from your fork. They can read through the changes, comment, ask for edits, and merge them when they're happy.
+
+The steps are: fork the repository on GitHub, clone your fork, make your change on a branch, push it to your fork, and open a pull request. It's also how people contribute to R packages and other open-source projects on GitHub, so it's useful well beyond the lab.
+
+### Try to edit it
+
+Go to https://github.com/PiNC-lab/lab-handbook, a practice repository set up for learning this, open `useful-packages.md` and click the pencil icon. If you don't have permission to change the repository, GitHub tells you that you need to fork it to propose changes.
+
+<!-- Show this in the second browser profile, logged in as the test student account. Switch back to your own profile for everything after this, and say that as an owner you could push directly, but students won't be able to. -->
+
+### Fork it
+
+Click **Fork** at the top right of the repository. Under **Owner** choose your own account, leave the name as it is and click **Create fork**.
+
+You now have your own copy at `https://github.com/your-username/lab-handbook`. Under its name it says it was forked from `PiNC-lab/lab-handbook`.
+
+### Clone your fork and make a change
+
+Clone your fork, not the lab's copy. Use **File > New Project > Version Control > Git** with your fork's address, or:
+
+```bash
+git clone https://github.com/your-username/lab-handbook.git
+```
+
+<!-- Clone into ~/git-demo and tick "Open in new session" so the fynbos project stays open for section 8. -->
+
+Make a branch for the change. It keeps your fork's `main` tidy and makes the pull request easier to follow:
+
+```bash
+git switch -c add-terra
+```
+
+Open `useful-packages.md` and add this line under **Spatial**:
+
+```markdown
+- **terra**: reading, writing and processing rasters. Replaces the older raster package.
+```
+
+Commit and push it:
+
+```bash
+git add useful-packages.md
+git commit -m "Add terra to useful packages"
+git push -u origin add-terra
+```
+
+This time `origin` is your fork, because that's what you cloned, so you're allowed to push to it.
+
+### Open a pull request
+
+Go to your fork on GitHub. There'll be a banner with a **Compare & pull request** button. Click it.
+
+Check the line at the top. It should show that you're asking to merge `add-terra` from `your-username/lab-handbook` into `main` on `PiNC-lab/lab-handbook`. Give the pull request a title, add a sentence or two about what you changed and why, and click **Create pull request**.
+
+It now appears under the **Pull requests** tab of the lab's repository, where the people who look after it will see it.
+
+### Review and merge
+
+This is the view from the other side.
+
+- **Files changed** shows the same red and green diff you've seen in RStudio.
+- To comment on a particular line, hover over it and click the **+** that appears. Comments can be questions, suggestions or just "looks good".
+- If something needs changing, the person who opened the pull request commits and pushes to the same branch on their fork, and the pull request updates itself.
+- When it's ready, a maintainer clicks **Merge pull request** and then **Confirm merge**.
+
+Once it's merged, GitHub offers a **Delete branch** button, which removes the branch from your fork.
+
+Pull requests are useful on your own repositories too, for example when you want your supervisor to look over a change before it goes in.
+
+<!-- If running behind, describe the line comment rather than doing it. -->
+
+### Keep your fork up to date
+
+Your fork doesn't update itself when the lab's repository changes, even when the change was your own pull request. To bring it up to date, go to your fork on GitHub and click **Sync fork**, then **Update branch**. Then in RStudio:
+
+```bash
+git switch main
+git pull
+git branch -d add-terra
+```
+
+Do this before starting any new change, the same way you'd pull before starting work.
+
+## 7. READMEs, issues and DOIs
+
+<!-- If you're behind, cut Zenodo to a sentence and the example link. -->
+
+### README
+
+The README is the front page of a repository. GitHub shows it underneath the list of files. It's a plain text file written in Markdown and it's versioned like everything else.
+
+Write it for whoever picks up the project next, which is quite often you, a year later. At a minimum, say what the project is, where the data are, and what order to run things in. Where the raw data are kept is the detail that most often goes missing. The fynbos repository has a short example.
+
+### Issues
+
+Issues are a to-do list kept alongside the code. Each one has a title, a description and a comment thread, and gets closed when it's been dealt with. Have a look at the **Issues** tab on https://github.com/PiNC-lab/fynbos-bird-counts.
+
+They're handy for keeping track of what still needs doing, and for letting a supervisor or co-author raise a problem without sending an email. Closed issues stay searchable, so they also record why you made a decision, which helps when a reviewer asks.
+
+One of the open issues asks whether to use a GLM or a GAM. We've just settled that, so open it, add a comment such as "Went with the GAM, see R/04_model.R" and click **Close with comment**.
+
+On repositories you can't push to, opening an issue is also the simplest way to point out a problem without fixing it yourself.
+
+### DOIs with Zenodo
+
+When you publish a paper, the journal will probably ask where your code is. A GitHub link is better than nothing, but a repository can be changed or deleted. Zenodo can archive a copy and give it a DOI, which always points to that exact version and can be cited.
+
+1. Log in to https://zenodo.org with your GitHub account and switch the repository on in Zenodo's GitHub settings.
+2. On GitHub, make a release (**Releases > Draft a new release**), for example when you submit the paper.
+3. Zenodo archives the release and gives it a DOI. You can add a DOI badge to your README.
+
+Each release gets its own DOI, and there's also one that always points to the latest version. In a paper, cite the DOI for the release you actually used.
+
+For an example, have a look at [GMoncrieff/postfire-statespace](https://zenodo.org/records/7271332).
+
+## 8. What not to put in a repository
+
+<!-- Back to the fynbos-bird-counts RStudio window. -->
+
+Git works best with plain text files: R scripts, Quarto and R Markdown documents, CSV files and Markdown. For these it can show you exactly which lines changed.
+
+It will store other kinds of file too, like Excel workbooks, rasters, shapefiles, `.RData` and Word documents, but it can't show you what changed in them, and it generally ends up keeping a full copy each time they change. A 50 MB raster edited ten times can add half a gigabyte to the history, and taking it out again is hard.
+
+GitHub warns you about files over 50 MB and refuses files over 100 MB.
+
+A good rule: code and small text data go in the repository. Large data, rasters, spatial files and anything containing a password don't. Keep large data on shared storage or archive it somewhere like Zenodo, and have your scripts read it from there.
+
+### .gitignore
+
+The `.gitignore` file lists things Git should leave alone. This is the one in the fynbos repository:
+
+```
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.Renviron
+data/raw/
+*.tif
+*.nc
+*.shp
+*.dbf
+*.shx
+*.prj
+```
+
+To see it working, create some files that shouldn't be committed. In the R console:
+
+```r
+dir.create("data/raw", showWarnings = FALSE)
+writeBin(raw(40e6), "data/raw/sentinel2_capepoint.tif")
+writeLines("GBIF_PWD=not-a-real-password", ".Renviron")
+```
+
+They're in the Files pane but not in the Git tab. To list what Git is ignoring:
+
+```bash
+git status --ignored
+```
+
+Now make a file that isn't covered:
+
+```r
+dir.create("outputs", showWarnings = FALSE)
+writeBin(raw(1e5), "outputs/summary_table.xlsx")
+```
+
+This one does show up in the Git tab. To ignore it, and any other Excel file from now on:
+
+```r
+usethis::use_git_ignore("*.xlsx")
+```
+
+The file drops off the list and `.gitignore` shows as modified. Commit that:
+
+```bash
+git add .gitignore
+git commit -m "Ignore Excel files"
+git push
+```
+
+Set up your `.gitignore` before your first commit. Getting a big file out of the history once it's been committed is a real nuisance.
+
+Keep passwords, API keys and tokens out of your scripts altogether. Put them in `.Renviron` and read them with `Sys.getenv()`. If a password does get pushed, deleting the file doesn't help, because it's still in the history. Change the password.
+
+## 9. Wrapping up
+
+- Git keeps the history of a project on your computer. GitHub keeps a copy online and makes it easier to share and to work with other people.
+- The everyday loop is pull, edit, stage, commit, push. Commit often, because you can only go back to versions you committed.
+- Use a branch when you want to try something without risking the version that works.
+- To change a lab repository you can't push to, fork it, make the change on a branch and open a pull request.
+- Keep large data and passwords out of your repositories.
+
+Sooner or later something will go wrong and you won't know how to fix it. There's a crude fix that always works: copy the files you've changed somewhere safe, delete the project folder, clone it again from GitHub, copy your files back in, and commit.
+
+The best next step is Happy Git and GitHub for the useR (https://happygitwithr.com). It's written for R users and covers setup in much more detail than we did here.
+
+We'll run a follow-up session on working together in shared repositories, including what happens when two people change the same lines.
+
+## Setting up your own computer
+
+You only need to do this once.
+
+1. Make a free account at https://github.com, then send your username to me so we can add you to the organisation.
+2. Install Git from https://git-scm.com/downloads. On a Mac, typing `git --version` in a terminal will offer to install it if it isn't there already. Restart RStudio afterwards.
+3. In R, install two helper packages:
+
+   ```r
+   install.packages(c("usethis", "gitcreds"))
+   ```
+
+4. Tell Git your name and the email address you use on GitHub:
+
+   ```r
+   usethis::use_git_config(user.name = "Your Name", user.email = "you@example.com")
+   ```
+
+5. Create a personal access token, which lets RStudio push to GitHub on your behalf. This opens the right page on GitHub with the settings filled in:
+
+   ```r
+   usethis::create_github_token()
+   ```
+
+   Pick an expiry date, generate the token and copy it. Then run this and paste the token in when asked:
+
+   ```r
+   gitcreds::gitcreds_set()
+   ```
+
+   When the token expires, repeat this step.
+
+6. Check everything is in place:
+
+   ```r
+   usethis::git_sitrep()
+   ```
+
+If RStudio can't find Git, look under **Tools > Global Options > Git/SVN**. Happy Git with R has a chapter for most of the problems people run into.
+
+## Cheat sheet
+
+| To do this | In RStudio | In the terminal |
+|---|---|---|
+| Copy a repository to your computer | File > New Project > Version Control | `git clone <address>` |
+| Get changes from GitHub | Pull | `git pull` |
+| See what's changed | Diff | `git status`, `git diff` |
+| Stage a file | Tick its box | `git add <file>` |
+| Save a version | Commit | `git commit -m "message"` |
+| Send commits to GitHub | Push | `git push` |
+| See the history | History (clock icon) | `git log --oneline` |
+| Undo changes since the last commit | More > Revert | `git restore <file>` |
+| Make a branch and switch to it | Branch icon | `git switch -c <name>` |
+| Switch branch | Branch menu | `git switch <name>` |
+| Push a new branch the first time | | `git push -u origin <name>` |
+| Merge a branch into the current one | | `git merge <name>` |
+| Delete a branch | | `git branch -d <name>` |
+
+To suggest a change to a repository you can't push to:
+
+1. Fork it on GitHub.
+2. Clone your fork.
+3. `git switch -c my-change`, make the change, and commit.
+4. `git push -u origin my-change`
+5. On GitHub, click **Compare & pull request**.
+6. After it's merged: **Sync fork** on GitHub, then `git switch main` and `git pull`.
+
+What stays out of a repository: large data, rasters and shapefiles, `.RData`, big spreadsheets, anything over 50 MB, and anything with a password in it.
+
+Committing saves a version on your computer. Pushing sends it to GitHub.
