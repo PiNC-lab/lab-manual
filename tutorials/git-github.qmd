@@ -512,41 +512,6 @@ data/raw/
 *.prj
 ```
 
-To see it working, create some files that shouldn't be committed. In the R console:
-
-```r
-dir.create("data/raw", showWarnings = FALSE)
-writeBin(raw(40e6), "data/raw/sentinel2_capepoint.tif")
-writeLines("GBIF_PWD=not-a-real-password", ".Renviron")
-```
-
-They're in the Files pane but not in the Git tab. To list what Git is ignoring:
-
-```bash
-git status --ignored
-```
-
-Now make a file that isn't covered:
-
-```r
-dir.create("outputs", showWarnings = FALSE)
-writeBin(raw(1e5), "outputs/summary_table.xlsx")
-```
-
-This one does show up in the Git tab. To ignore it, and any other Excel file from now on:
-
-```r
-usethis::use_git_ignore("*.xlsx")
-```
-
-The file drops off the list and `.gitignore` shows as modified. Commit that:
-
-```bash
-git add .gitignore
-git commit -m "Ignore Excel files"
-git push
-```
-
 Set up your `.gitignore` before your first commit. Getting a big file out of the history once it's been committed is a real nuisance.
 
 Keep passwords, API keys and tokens out of your scripts altogether. Put them in `.Renviron` and read them with `Sys.getenv()`. If a password does get pushed, deleting the file doesn't help, because it's still in the history. Change the password.
