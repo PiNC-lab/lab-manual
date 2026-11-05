@@ -5,3 +5,6 @@
 .Rhistory
 
 **/*.quarto_ipynb
+
+# Private instructor notes (run-of-show docs)
+/_instructor/
