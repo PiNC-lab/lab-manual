@@ -29,18 +29,28 @@ There's a setup guide and a cheat sheet at the end of the page, and a reference 
 
 ### The example project
 
-Download [bird-demo.zip](files/vscode/bird-demo.zip) and unzip it somewhere sensible, such as your Documents folder. It contains:
+The example project is a repository in the lab's GitHub organisation: https://github.com/PiNC-lab/vscode-bird-demo. You'll make your own copy of it on GitHub (a **fork**), copy that to your computer (**clone** it), and at the end push a change back to your fork. If forks are new to you, the [Git and GitHub tutorial](git-github.qmd#the-lab-organisation-forks-and-pull-requests) explains them.
+
+1. Go to https://github.com/PiNC-lab/vscode-bird-demo, click **Fork**, then **Create fork**. Your copy is at `https://github.com/your-username/vscode-bird-demo`.
+2. On your fork, click the green **Code** button and copy the HTTPS address.
+3. In VS Code, open the Welcome page (**Help > Welcome**) and click **Clone Git Repository...**. Paste the address, press **Enter**, choose a folder to put the project in, and click **Open** when VS Code asks.
+
+The terminal equivalent is `git clone https://github.com/your-username/vscode-bird-demo.git`, followed by **File > Open Folder...**.
+
+The project contains:
 
 ```
-bird-demo/
+vscode-bird-demo/
 ├── data/
 │   └── bird_counts.csv   the data
+├── .gitignore            files Git should leave alone
 ├── analysis.ipynb        a notebook that runs the analysis
 ├── analysis.py           the same analysis as a script
+├── README.md
 └── utils.py              functions used by both
 ```
 
-During the tutorial you'll add an `environment.yml` (section 3) and a `.gitignore` (section 6).
+During the tutorial you'll add an `environment.yml` (section 3), and in section 6 you'll commit it and push it to your fork.
 
 The data have one row per site visit:
 
@@ -59,7 +69,7 @@ One visit has no count, which comes up later.
 
 ### Open a folder
 
-In RStudio you work inside a Project, which sets the working directory and remembers your open files. The VS Code equivalent is simply a folder. Use **File > Open Folder...** and choose `bird-demo`.
+In RStudio you work inside a Project, which sets the working directory and remembers your open files. The VS Code equivalent is simply a folder. Cloning the example project opened its folder for you. Next time, use **File > Open Folder...** (or **File > Open Recent**) and choose `vscode-bird-demo`.
 
 The folder you open is the **workspace**. The file explorer, search, the terminal, Git and Python all work relative to it, and VS Code remembers your open tabs and layout for that folder. Any settings specific to the project are kept in a `.vscode` folder inside it, a bit like the `.Rproj` file.
 
@@ -68,7 +78,7 @@ Always open the project folder, not a single file. Lots of things (imports, rela
 ### A tour of the window
 
 ::: {.callout-note appearance="simple"}
-**Screenshot to add:** `images/vscode-window-tour.png`. The whole VS Code window with `bird-demo` open and `bird_counts.csv` in the editor. Label the five areas: Activity Bar (far left), Primary Side Bar showing the Explorer, Editor, Panel with the Terminal open, and Status Bar.
+**Screenshot to add:** `images/vscode-window-tour.png`. The whole VS Code window with `vscode-bird-demo` open and `bird_counts.csv` in the editor. Label the five areas: Activity Bar (far left), Primary Side Bar showing the Explorer, Editor, Panel with the Terminal open, and Status Bar.
 :::
 
 | Area | What it is | Closest thing in RStudio |
@@ -321,16 +331,6 @@ The indented block after `def` is the body of the function, and the text in trip
 
 Python only reads a module the first time you import it. Without the two `%autoreload` lines at the top of the notebook, changes you make to `utils.py` would be ignored until you restarted the kernel. With them, the notebook rereads `utils.py` every time you run a cell.
 
-### Working directory and path gotchas
-
-This is where most people moving from RStudio get caught out.
-
-- **A notebook runs in the folder it's saved in.** That's why `"data/bird_counts.csv"` and `from utils import ...` work: the notebook is in `bird-demo`, alongside `data` and `utils.py`.
-- **A script run from the terminal uses the terminal's current folder** for relative paths like `"data/bird_counts.csv"`, wherever the script itself is saved.
-- **Imports look in the script's own folder (or the notebook's folder), not the workspace.** Move the notebook into a `notebooks/` subfolder and both `from utils import ...` and `"data/..."` stop working.
-
-For now, the simplest rule is: keep notebooks, scripts and `utils.py` together in the top level of the project.
-
 ### From notebook to script
 
 Notebooks are good for exploring. For the version that produces your final results, a script is easier to run from start to finish, review in Git and run on a server.
@@ -344,6 +344,7 @@ import matplotlib.pyplot as plt
 
 from utils import load_counts, summarise_sites
 
+# The folder this script is saved in (vscode-bird-demo), wherever you run it from
 HERE = Path(__file__).parent
 DATA = HERE / "data" / "bird_counts.csv"
 OUTPUTS = HERE / "outputs"
@@ -433,13 +434,11 @@ Next to a data frame such as `counts` there's a button to open it in **Data Wran
 
 Data Wrangler is the `View()` of VS Code. You can scroll, sort and filter, and each column has a summary with its type, missing values and distribution. Sorting and filtering here doesn't change your data. Data Wrangler also has an editing mode that writes pandas code for cleaning steps you make with the mouse, which you can copy back into the notebook. It's a handy way to find out how to do something in pandas.
 
-The Variables view is only for notebooks. For a script, use the Interactive Window (the `# %%` cells from section 4), which has its own Variables view.
-
 ### Where plots appear
 
-In a notebook, a plot appears underneath the cell that made it and is saved in the notebook. Hover over it for buttons to expand it or save it as an image. The Interactive Window works the same way.
+In a notebook, a plot appears underneath the cell that made it and is saved in the notebook. Hover over it for buttons to expand it or save it as an image.
 
-A script run from the terminal has nowhere to show a plot, so either save it with `fig.savefig(...)`, as `analysis.py` does, or call `plt.show()` to open it in a separate window. The script waits until you close that window.
+A script run from the terminal has nowhere to show a plot, so save it with `fig.savefig(...)`, as `analysis.py` does.
 
 ### Getting help
 
@@ -455,64 +454,35 @@ A script run from the terminal has nowhere to show a plot, so either save it wit
 
 ## 6. Git and the Source Control panel
 
-This section assumes you've done the [Git and GitHub tutorial](git-github.qmd), or know the basics of commits, pushing and branches. VS Code uses the same Git as RStudio, so nothing about your setup changes.
+This section assumes you've done the [Git and GitHub tutorial](git-github.qmd), or know the basics of branches, commits and pushing. VS Code uses the same Git as RStudio, so nothing about your setup changes.
 
-### Set the project up
+Because you cloned your fork, VS Code already knows the project is a Git repository, and that `origin` is your fork on GitHub. You'll put the `environment.yml` you made in section 3 on a new branch, commit it and push it.
 
-Click the **Source Control** icon in the Activity Bar (it looks like a branching line), or press **Ctrl + Shift + G**. Since `bird-demo` isn't a Git repository yet, there's an **Initialize Repository** button. Click it. (If you'd cloned a repository from GitHub instead, VS Code would recognise it straight away.)
-
-Before committing anything, create a `.gitignore` file in the project folder so that outputs and Python's cache files stay out:
-
-```
-outputs/
-__pycache__/
-.ipynb_checkpoints/
-.DS_Store
-```
-
-### Stage, commit, push and pull
+Click the **Source Control** icon in the Activity Bar (it looks like a branching line), or press **Ctrl + Shift + G**. Files you've changed are listed under **Changes**, with a letter showing what happened: **U** for untracked (new) and **M** for modified. `environment.yml` is there with a **U**, and `analysis.ipynb` with an **M**, because running the notebook saved its output into the file.
 
 ::: {.callout-note appearance="simple"}
-**Screenshot to add:** `images/vscode-source-control.png`. The Source Control view with a commit message typed and some files staged. Highlight the message box, the **Commit** button, the **+** next to a file (stage), the **Staged Changes** and **Changes** groups, the **...** menu, and the branch name and sync icon in the Status Bar.
+**Screenshot to add:** `images/vscode-source-control.png`. The Source Control view on the `add-environment` branch, with `environment.yml` and `analysis.ipynb` staged and a commit message typed. Highlight the branch name in the Status Bar, the **+** next to the **Changes** heading, the **Staged Changes** group, the message box and the **Commit** button.
 :::
 
-Files you've changed are listed under **Changes**, with a letter showing what happened: **U** for untracked (new), **M** for modified and **D** for deleted.
+1. **Clear the notebook's outputs.** Open `analysis.ipynb`, click **Clear All Outputs** in the notebook toolbar (it may be under **...**), and save. Outputs make notebooks bigger and their changes hard to read, so it's a good habit to clear them before committing. The notebook may still be marked **M**, because VS Code also saves which kernel it uses. That's fine to commit.
+2. **Create a branch.** Click the branch name (`main`) at the bottom left of the Status Bar, choose **Create new branch...**, type `add-environment` and press **Enter**. The Status Bar now shows the new branch. Changes you haven't committed come with you.
+3. **Stage.** Hover over the **Changes** heading and click **+** to stage everything. The files move to **Staged Changes**. This is ticking the boxes in RStudio's Git tab. (To stage just one file, use the **+** next to it. Click a file name to see what changed.)
+4. **Commit.** Type a message such as `Add environment.yml` in the box at the top and click **Commit** (or press **Cmd/Ctrl + Enter**).
+5. **Push.** Click **Publish Branch**. This creates the branch on your fork and pushes your commit to it. The first time, VS Code asks you to sign in to GitHub in your browser.
 
-1. **Stage** a file by hovering over it and clicking **+**, or stage everything with the **+** next to the **Changes** heading. Staged files move to **Staged Changes**. This is ticking the box in RStudio's Git tab.
-2. Type a message in the box at the top and click **Commit** (or press **Cmd/Ctrl + Enter**). If nothing is staged, VS Code offers to commit everything.
-3. The first time, click **Publish Branch**. VS Code asks you to sign in to GitHub in your browser, then creates a repository on GitHub (you choose private or public) and pushes to it.
-4. After that, the button becomes **Sync Changes**, which pulls and then pushes. Push and Pull on their own are in the **...** menu.
+Refresh your fork on GitHub, pick `add-environment` from the branch menu, and `environment.yml` is there. From here you could open a pull request, as in the Git tutorial.
 
-Commit `environment.yml` with the code. Notebooks save their output inside the `.ipynb` file, which makes them bigger and their changes harder to read. Many people run **Clear All Outputs** (in the notebook toolbar) before committing a notebook.
+After the first push, the button becomes **Sync Changes**, which pulls and then pushes.
 
-### Branches and diffs
-
-The current branch is shown at the bottom left of the Status Bar. Click it to switch branch or to **Create new branch...**. Merging is under **...** > **Branch** > **Merge...**.
-
-Click a changed file in the Source Control view to see the changes side by side, old version on the left and new on the right. For notebooks, VS Code shows a diff cell by cell, and you can hide changes to outputs and metadata so you only see changes to the code.
-
-::: {.callout-note appearance="simple"}
-**Screenshot to add:** `images/vscode-diff.png`. The side-by-side diff of `utils.py` after adding `n_visits`. Highlight the removed line (red) and added line (green).
-:::
-
-Try it: create a branch called `try-seaborn`, change the colours in `analysis.py`, and look at the diff before committing.
-
-### How this maps onto the command line
-
-Everything in the Source Control view is a Git command underneath, and you can always do it in the terminal instead. The **Output** panel, with **Git** chosen in its drop-down, shows the commands VS Code ran.
+Everything in the Source Control view is a Git command underneath:
 
 | In VS Code | In the terminal |
 |---|---|
-| Initialize Repository | `git init` |
-| Click a changed file | `git diff <file>` |
-| **+** on a file | `git add <file>` |
-| Commit | `git commit -m "message"` |
-| Publish Branch | `git push -u origin <branch>` (after creating the repository on GitHub) |
+| Branch name > Create new branch | `git switch -c add-environment` |
+| **+** on the Changes heading | `git add -A` |
+| Commit | `git commit -m "Add environment.yml"` |
+| Publish Branch | `git push -u origin add-environment` |
 | Sync Changes | `git pull` then `git push` |
-| Branch name > Create new branch | `git switch -c <name>` |
-| Branch name > pick a branch | `git switch <name>` |
-| ... > Branch > Merge | `git merge <name>` |
-| Discard Changes (curved arrow on a file) | `git restore <file>` |
 
 ## 7. Wrapping up
 
@@ -616,7 +586,7 @@ You'll install four things:
 - **Git**, for section 6
 - a few **VS Code extensions**
 
-You'll also need a free [GitHub account](https://github.com/signup) for section 6.
+You'll also need a free [GitHub account](https://github.com/signup) to fork the example project.
 
 ::: {.panel-tabset}
 
