@@ -77,9 +77,7 @@ Always open the project folder, not a single file. Lots of things (imports, rela
 
 ### A tour of the window
 
-::: {.callout-note appearance="simple"}
-**Screenshot to add:** `images/vscode-window-tour.png`. The whole VS Code window with `vscode-bird-demo` open and `bird_counts.csv` in the editor. Label the five areas: Activity Bar (far left), Primary Side Bar showing the Explorer, Editor, Panel with the Terminal open, and Status Bar.
-:::
+![The VS Code window with `vscode-bird-demo` open: the Activity Bar down the far left, the Explorer in the Side Bar, `analysis.py` in the Editor, the Terminal in the Panel below it, and the Status Bar along the bottom.](images/01_overview.png){fig-alt="VS Code window showing the Activity Bar, the Explorer listing the vscode-bird-demo files, analysis.py open in the editor, a terminal panel at the bottom, and the status bar showing the main branch and Python 3.9.6."}
 
 | Area | What it is | Closest thing in RStudio |
 |---|---|---|
@@ -95,17 +93,11 @@ The terminal opens in the workspace folder. It's an ordinary shell (zsh on a Mac
 
 VS Code has a huge number of features, and keyboard shortcuts are often the quickest way to get to them. The [cheat sheet](#cheat-sheet) at the end of this page lists the ones I find most useful. If you learn one shortcut, make it **Cmd/Ctrl + Shift + P**. This opens the **Command Palette**, a search box for every command VS Code and your extensions provide. Start typing what you want and pick it from the list. It also shows each command's keyboard shortcut, so it's how you learn them.
 
-::: {.callout-note appearance="simple"}
-**Screenshot to add:** `images/vscode-command-palette.png`. The Command Palette open with "select interpreter" typed in. Highlight the search box and the **Python: Select Interpreter** result.
-:::
+![The Command Palette, opened with **Cmd/Ctrl + Shift + P**. Type in the box at the top to filter the list. Keyboard shortcuts are shown on the right.](images/02_command_pal.png){fig-alt="The VS Code Command Palette open at the top of the window, with an empty search box and a list of commands, some showing their keyboard shortcuts."}
 
 ## 2. Extensions
 
 Click the **Extensions** icon in the Activity Bar. Search for an extension, check the publisher, and click **Install**.
-
-::: {.callout-note appearance="simple"}
-**Screenshot to add:** `images/vscode-extensions.png`. The Extensions view with "python" in the search box. Highlight the Python extension by Microsoft, the verified publisher tick and the **Install** button.
-:::
 
 Anyone can publish an extension, so stick to well-used ones from publishers you recognise.
 
@@ -125,10 +117,6 @@ Anyone can publish an extension, so stick to well-used ones from publishers you 
 | **Ruff** | Astral Software | Tidies up your code formatting and points out common mistakes, like `styler` and `lintr` in R |
 | **Rainbow CSV** | mechatroni | Colours each column of a CSV file differently so you can read it. Open `data/bird_counts.csv` to see it |
 | **Quarto** | Quarto | Editing and previewing Quarto documents, including this website |
-
-::: {.callout-note appearance="simple"}
-**Screenshot to add:** `images/vscode-rainbow-csv.png`. `data/bird_counts.csv` open in the editor with Rainbow CSV colouring the columns. Highlight the empty count for S03 on 2026-04-06.
-:::
 
 ## 3. Environments with mamba
 
@@ -186,10 +174,6 @@ VS Code needs to know which environment to use, and there are two separate place
 
 **The interpreter** is used for Python scripts (`.py` files): running them with the Run button, autocomplete and error checking, and new terminals. Click the Python version in the bottom right of the Status Bar, or run **Python: Select Interpreter** from the Command Palette, and pick `bird-demo`. If it isn't listed, click the refresh icon or close and reopen VS Code.
 
-::: {.callout-note appearance="simple"}
-**Screenshot to add:** `images/vscode-select-interpreter.png`. A `.py` file open, with the interpreter picker showing a list of environments. Highlight the Python version in the Status Bar and the `bird-demo` entry in the list.
-:::
-
 **The kernel** is used by a Jupyter notebook. Each notebook has its own, chosen with **Select Kernel** at the top right of the notebook. We'll do this in section 4.
 
 They're separate because a notebook remembers its own kernel. In practice you'll usually set both to the same environment. If a notebook says it can't find a package that you know is installed, the first thing to check is which kernel it's using.
@@ -241,10 +225,6 @@ A Jupyter notebook (`.ipynb`) mixes code, output and text in cells, much like an
 In the Explorer, click `analysis.ipynb`. It opens with the code and text but no output yet, because nothing has been run.
 
 Click **Select Kernel** at the top right, then **Python Environments**, then `bird-demo`. Then click **Run All** in the notebook toolbar. Each cell runs in turn and its output appears underneath it.
-
-::: {.callout-note appearance="simple"}
-**Screenshot to add:** `images/vscode-notebook-toolbar.png`. `analysis.ipynb` after Run All. Highlight **Select Kernel** / the kernel name (top right), **Run All**, **Restart**, **Variables**, and the **...** menu in the notebook toolbar.
-:::
 
 ### A walk through the notebook
 
@@ -428,10 +408,6 @@ RStudio's Environment pane lists every object in your session. In a notebook, cl
 
 Next to a data frame such as `counts` there's a button to open it in **Data Wrangler**. You'll also see an **Open 'counts' in Data Wrangler** button underneath a cell that displays a data frame.
 
-::: {.callout-note appearance="simple"}
-**Screenshot to add:** `images/vscode-variables-data-wrangler.png`. The Variables panel with `counts` and `site_means` listed, and `counts` open in Data Wrangler. Highlight the Data Wrangler button next to `counts`, the summary for the `count` column (showing one missing value), and a column filter.
-:::
-
 Data Wrangler is the `View()` of VS Code. You can scroll, sort and filter, and each column has a summary with its type, missing values and distribution. Sorting and filtering here doesn't change your data. Data Wrangler also has an editing mode that writes pandas code for cleaning steps you make with the mouse, which you can copy back into the notebook. It's a handy way to find out how to do something in pandas.
 
 ### Where plots appear
@@ -448,10 +424,6 @@ A script run from the terminal has nowhere to show a plot, so save it with `fig.
 - **F12**, or right-click and **Go to Definition**, jumps to where a function is defined, whether that's in `utils.py` or inside pandas itself.
 - `help(plt.bar)` prints the full documentation, like `?barplot` in R. In a notebook, `plt.bar?` does the same.
 
-::: {.callout-note appearance="simple"}
-**Screenshot to add:** `images/vscode-hover-help.png`. The mouse over `summarise_sites` in the notebook with the documentation popup showing its docstring. Highlight the popup.
-:::
-
 ## 6. Git and the Source Control panel
 
 This section assumes you've done the [Git and GitHub tutorial](git-github.qmd), or know the basics of branches, commits and pushing. VS Code uses the same Git as RStudio, so nothing about your setup changes.
@@ -460,9 +432,7 @@ Because you cloned your fork, VS Code already knows the project is a Git reposit
 
 Click the **Source Control** icon in the Activity Bar (it looks like a branching line), or press **Ctrl + Shift + G**. Files you've changed are listed under **Changes**, with a letter showing what happened: **U** for untracked (new) and **M** for modified. `environment.yml` is there with a **U**, and `analysis.ipynb` with an **M**, because running the notebook saved its output into the file.
 
-::: {.callout-note appearance="simple"}
-**Screenshot to add:** `images/vscode-source-control.png`. The Source Control view on the `add-environment` branch, with `environment.yml` and `analysis.ipynb` staged and a commit message typed. Highlight the branch name in the Status Bar, the **+** next to the **Changes** heading, the **Staged Changes** group, the message box and the **Commit** button.
-:::
+![The Source Control view. The commit message box and **Commit** button are at the top, changed files are listed under **Changes**, and the **Graph** shows past commits. The current branch is shown at the bottom left of the Status Bar.](images/03_git.png){fig-alt="The VS Code Source Control view with an empty commit message box, a Commit button, and a Graph section listing one commit on the main branch; the status bar shows the main branch."}
 
 1. **Clear the notebook's outputs.** Open `analysis.ipynb`, click **Clear All Outputs** in the notebook toolbar (it may be under **...**), and save. Outputs make notebooks bigger and their changes hard to read, so it's a good habit to clear them before committing. The notebook may still be marked **M**, because VS Code also saves which kernel it uses. That's fine to commit.
 2. **Create a branch.** Click the branch name (`main`) at the bottom left of the Status Bar, choose **Create new branch...**, type `add-environment` and press **Enter**. The Status Bar now shows the new branch. Changes you haven't committed come with you.
