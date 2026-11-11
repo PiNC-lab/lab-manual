@@ -20,17 +20,17 @@ There's a setup guide and a cheat sheet at the end of the page.
 
 ## Outline
 
-| Start | Topic | Minutes |
-|---|---|---|
-| 0:00 | Why bother with version control | 3 |
-| 0:03 | Git and GitHub are not the same thing | 7 |
-| 0:10 | The basic loop: commit, push, pull | 11 |
-| 0:21 | Going back to an earlier version | 7 |
-| 0:28 | Branches | 7 |
-| 0:35 | The lab organisation: forks and pull requests | 12 |
-| 0:47 | READMEs, issues and DOIs | 5 |
-| 0:52 | What not to put in a repository | 5 |
-| 0:57 | Wrapping up | 3 |
+| Topic |
+|---|
+| Why bother with version control |
+| Git and GitHub are not the same thing |
+| The basic loop: commit, push, pull |
+| Going back to an earlier version |
+| Branches |
+| The lab organisation: forks and pull requests |
+| READMEs, issues and DOIs |
+| What not to put in a repository |
+| Wrapping up |
 
 ## 1. Why bother with version control
 

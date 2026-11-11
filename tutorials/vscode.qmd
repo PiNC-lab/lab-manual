@@ -15,17 +15,17 @@ There's a setup guide and a cheat sheet at the end of the page, and a reference 
 
 ## Outline
 
-| Start | Topic | Minutes |
-|---|---|---|
-| 0:00 | Introduction and the example project | 3 |
-| 0:03 | Workspace orientation | 8 |
-| 0:11 | Extensions | 6 |
-| 0:17 | Environments with mamba | 12 |
-| 0:29 | Working in Jupyter | 15 |
-| 0:44 | Inspecting data, plots and help | 5 |
-| 0:49 | Git and the Source Control panel | 8 |
-| 0:57 | Wrapping up | 3 |
-| | R to Python translation (reference only) | |
+| Topic |
+|---|
+| Introduction and the example project |
+| Workspace orientation |
+| Extensions |
+| Environments with mamba |
+| Working in Jupyter |
+| Inspecting data, plots and help |
+| Git and the Source Control panel |
+| Wrapping up |
+| R to Python translation (reference only) |
 
 ### The example project
 
